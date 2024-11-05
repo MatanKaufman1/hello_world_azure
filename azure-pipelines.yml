@@ -12,7 +12,7 @@ stages:
     - job: SetupEnvironment
       steps:
         - script: |
-            python333 -m venv myenv
+            python3 -m venv myenv
             source myenv/bin/activate
             python -m pip install --upgrade pip
           displayName: 'Create and activate virtual environment'
