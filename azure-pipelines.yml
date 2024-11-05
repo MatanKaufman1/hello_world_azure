@@ -1,20 +1,21 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# azure-pipelines.yml
 
 trigger:
 - main
 
 pool:
-  name: matanAgent
-  demands:
-    - agent.name -equals kaufman
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  name: matanAgent  # Custom self-hosted agent
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+- stage: Build
+  jobs:
+    - job: BuildJob
+      steps:
+        - task: UseDotNet@2
+          inputs:
+            packageType: 'sdk'
+            version: '7.x.x'  # Specify the .NET version you need (e.g., 6.x.x, 7.x.x)
+
+        - script: dotnet build ./azure-helloworld.csproj --configuration Release
+          displayName: 'Build project'
+
