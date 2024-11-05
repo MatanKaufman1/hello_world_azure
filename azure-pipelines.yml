@@ -1,20 +1,28 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# azure-pipelines.yml
 
 trigger:
 - main
 
 pool:
-  name: matanAgent
-  demands:
-    - agent.name -equals kaufman
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  name: matanAgent  # Custom self-hosted agent
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+- stage: CreateEnv
+  jobs:
+    - job: SetupEnvironment
+      steps:
+        - script: |
+            python -m venv myenv
+            source myenv/bin/activate
+            python -m pip install --upgrade pip
+          displayName: 'Create and activate virtual environment'
+
+- stage: Build
+  dependsOn: CreateEnv
+  jobs:
+    - job: BuildJob
+      steps:
+        - script: |
+            source myenv/bin/activate
+            dotnet build ./azure-helloworld.csproj --configuration Release
+          displayName: 'Build project'
