@@ -4,8 +4,7 @@ trigger:
 - main
 
 pool:
-  name: matanAgent  # Custom self-hosted agent
-<<<<<<< HEAD
+  name: matanAgent  
 
 stages:
 - stage: CreateEnv
@@ -27,19 +26,4 @@ stages:
             source myenv/bin/activate
             dotnet build ./azure-helloworld.csproj --configuration Release
           displayName: 'Build project'
-=======
 
-stages:
-- stage: Build
-  jobs:
-    - job: BuildJob
-      steps:
-        - task: UseDotNet@2
-          inputs:
-            packageType: 'sdk'
-            version: '7.x.x'  # Specify the .NET version you need (e.g., 6.x.x, 7.x.x)
-
-        - script: dotnet build ./azure-helloworld.csproj --configuration Release
-          displayName: 'Build project'
-
->>>>>>> 266a730c175e92109fc8a14839a8f316bc5193f1
