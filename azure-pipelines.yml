@@ -7,8 +7,9 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
-
+  name: matanAgent
+  demands:
+    - agent.name -equals kaufman
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
