@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("azure-helloWorld")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebda7cd0ef398ce105060158758bd53a447ba515")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01ba4f8b6b86948c2990bb1250c2699af23fd90c")]
 [assembly: System.Reflection.AssemblyProductAttribute("azure-helloWorld")]
 [assembly: System.Reflection.AssemblyTitleAttribute("azure-helloWorld")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

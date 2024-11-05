@@ -1,0 +1,15 @@
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/bin/Debug/net8.0/azure-helloWorld
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/bin/Debug/net8.0/azure-helloWorld.deps.json
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/bin/Debug/net8.0/azure-helloWorld.runtimeconfig.json
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/bin/Debug/net8.0/azure-helloWorld.dll
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/bin/Debug/net8.0/azure-helloWorld.pdb
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.GeneratedMSBuildEditorConfig.editorconfig
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.AssemblyInfoInputs.cache
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.AssemblyInfo.cs
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.csproj.CoreCompileInputs.cache
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.sourcelink.json
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.dll
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/refint/azure-helloWorld.dll
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.pdb
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/azure-helloWorld.genruntimeconfig.cache
+/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/Debug/net8.0/ref/azure-helloWorld.dll

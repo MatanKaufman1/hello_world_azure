@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dj1nAVt/qh0OxOf5Pb3jqLpQeN5rSyOUeq0leHvTYlJmk0vjhr4x2N9Yv+kOI33Gb+IPJDu5+/J0+khS3FEgYg==",
+  "dgSpecHash": "weebfj2lxfwDrZWiFp1+xfr3kC7zcTKzs/vupJMMa1yrVoI0E9QIQvFLswfhKaTP1Oo+LDt2TIY3V1MBVqTYkQ==",
   "success": true,
-  "projectFilePath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj",
+  "projectFilePath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj",
+      "projectUniqueName": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld.csproj",
       "projectName": "azure-helloWorld",
-      "projectPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj",
+      "projectPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld.csproj",
       "packagesPath": "/home/matan/.nuget/packages/",
-      "outputPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/obj/",
+      "outputPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/matan/.nuget/NuGet/NuGet.Config"
