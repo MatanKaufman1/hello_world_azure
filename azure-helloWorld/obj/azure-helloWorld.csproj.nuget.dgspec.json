@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azureDevops.csproj": {}
+    "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj": {}
   },
   "projects": {
-    "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azureDevops.csproj": {
+    "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azureDevops.csproj",
-        "projectName": "azureDevops",
-        "projectPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azureDevops.csproj",
+        "projectUniqueName": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj",
+        "projectName": "azure-helloWorld",
+        "projectPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/azure-helloWorld.csproj",
         "packagesPath": "/home/matan/.nuget/packages/",
-        "outputPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/obj/",
+        "outputPath": "/home/matan/InfinityLabs/Git/matan.kaufman/devops/azureDevops/azure-helloWorld/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/matan/.nuget/NuGet/NuGet.Config"
