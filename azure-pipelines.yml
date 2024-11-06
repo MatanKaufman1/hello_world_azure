@@ -16,7 +16,7 @@ jobs:
       inputs:
         packageType: 'sdk'
         version: '8.x'  
-        installationPath: $(Agent.ToolsDirectory)/dotnet
+#        installationPath: $(Agent.ToolsDirectory)/dotnet
       displayName: 'Install .NET SDK'
 
     - task: NuGetToolInstaller@1
