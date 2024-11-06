@@ -10,6 +10,19 @@ stages:
       - job: BuildJob
         steps:
           - script: |
-              ls -ltr
               dotnet build  --configuration Release
+              dotnet pack . --configuration Release
             displayName: 'Build project'
+        
+
+          - task: NuGetCommand@2
+            inputs:
+              command: 'push'
+              publishVstsFeed: 'matan-feed'
+              packageFile: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+              versioningScheme: 'off'
+              versionPublish: $(artifactVersion)
+            displayName: 'Publish NuGet Package to Azure Artifacts'
+
+          
+            
