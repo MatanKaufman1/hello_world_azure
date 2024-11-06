@@ -2,41 +2,53 @@ trigger:
   - main
 
 pool:
-  name: matanAgent  # Ensure this matches your self-hosted agent pool name
+  name: matanAgent  
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'matan-feed'  # Ensure this matches your Azure Artifacts feed name
+  artifactName: 'feed-matan'  
   artifactVersion: '1.0.$(Build.BuildId)'
 
-stages:
-  - stage: Build
-    jobs:
-      - job: BuildJob
-        steps:
-          - script: |
-              curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0
-              export PATH="$PATH:$HOME/.dotnet"
-            displayName: 'Install .NET SDK'
+jobs:
+  - job: Build_Job
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.x'  
+        installationPath: $(Agent.ToolsDirectory)/dotnet
 
-          - script: |
-              curl -fsSL https://aka.ms/install-artifacts-credprovider.sh | bash
-            displayName: 'Install Azure Artifacts Credential Provider'
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet Tool'
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'Authenticate with NuGet'
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'Authenticate with Azure Artifacts'
 
-          - script: |
-              dotnet restore
-            displayName: 'Restore NuGet Packages'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: './azure-helloWorld.csproj'
+      displayName: 'Restore Dependencies'
 
-          - script: |
-              dotnet build --configuration $(buildConfiguration)
-            displayName: 'Build Project'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: './azure-helloWorld.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+      displayName: 'Build Project'
 
-          - script: |
-              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:PackageVersion=$(artifactVersion)
-            displayName: 'Pack Project into NuGet Package'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'pack'
+        projects: './azure-helloWorld.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      displayName: 'Pack The Project'
 
-          - script: |
-              dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source $(artifactName) --api-key $(System.AccessToken)
-            displayName: 'Publish NuGet Package to Azure Artifacts'
-            env:
-              NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
+    - script: |
+          dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source $(artifactName) --api-key $(System.AccessToken)
+          displayName: 'Publish NuGet Package to Azure Artifacts'
+          env:
+            NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
