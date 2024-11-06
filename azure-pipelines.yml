@@ -24,6 +24,9 @@ jobs:
     
     - task: NuGetAuthenticate@1
       displayName: 'Authenticate with NuGet'
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'Authenticate with Azure Artifacts'
 
     - task: DotNetCoreCLI@2
       inputs:
@@ -45,8 +48,7 @@ jobs:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Pack The Project'
 
-    - task: NuGetAuthenticate@1
-      displayName: 'Authenticate with Azure Artifacts'
+   
     
 
     - task: DotNetCoreCLI@2
@@ -54,5 +56,5 @@ jobs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
         nuGetFeedType: 'internal'
-        publishVstsFeed: 'matan-feed'
+        publishVstsFeed: '$(artifactName)'
       displayName: 'Publish NuGet Package to Azure Artifacts'
