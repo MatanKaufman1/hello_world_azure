@@ -29,3 +29,9 @@ az extension add --name azure-devops
 az devops project create --name "<project_name>" --description "<project_description>"
 
 # universal package
+
+# install Commitizen (for semver)
+sudo apt update
+sudo apt install nodejs npm -y
+sudo npm install -g commitizen
+commitizen init cz-conventional-changelog --save-dev --save-exact

@@ -19,12 +19,22 @@ stages:
               packageType: 'sdk'
               version: '6.x'  # Specify the .NET SDK version as needed
 
-          - task: gittools.gitversion.execute@0
-            displayName: 'Execute GitVersion'
+          - task: UseNode@1
+            displayName: 'Install Node.js'
             inputs:
-              useConfigFile: true
-              configFilePath: 'GitVersion.yml'  # Path to your GitVersion.yml file
-            name: gitVersion
+              versionSpec: '14.x'  # Specify the Node.js version as needed
+
+          - script: |
+              npm install
+            displayName: 'Install Dependencies'
+
+          - script: |
+              npx commitizen init cz-conventional-changelog --save-dev --save-exact
+            displayName: 'Initialize Commitizen'
+
+          - script: |
+              npx cz --version
+            displayName: 'Verify Commitizen Installation'
 
           - script: |
               echo "##vso[task.setvariable variable=artifactVersion]$(gitVersion.FullSemVer)"
