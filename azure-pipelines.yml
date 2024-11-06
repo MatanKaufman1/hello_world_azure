@@ -2,7 +2,7 @@ trigger:
   - main
 
 pool:
-  name: matanAgent
+  name: matanAgent  
 
 variables:
   buildConfiguration: 'Release'
@@ -17,7 +17,6 @@ stages:
           - task: UseDotNet@2
             inputs:
               packageType: 'sdk'
-              version: '8.x.x'  # Specify the required .NET SDK version
             displayName: 'Install .NET SDK'
 
           - task: NuGetAuthenticate@1
@@ -40,3 +39,6 @@ stages:
             displayName: 'Publish NuGet Package to Azure Artifacts'
             env:
               NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
+
+          
+            
