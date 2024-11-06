@@ -15,8 +15,7 @@ jobs:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '8.x'  
-#        installationPath: $(Agent.ToolsDirectory)/dotnet
+        version: '5.x.x'  # Replace with the specific version your project requires
       displayName: 'Install .NET SDK'
 
     - task: NuGetToolInstaller@1
