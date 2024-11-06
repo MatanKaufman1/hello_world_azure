@@ -2,11 +2,12 @@ trigger:
   - main
 
 pool:
-  name: matanAgent
+  vmImage: 'ubuntu-latest'  # Use 'windows-latest' or 'macos-latest' as needed
 
 variables:
   buildConfiguration: 'Release'
   artifactName: 'matan-feed'  # Ensure this matches your Azure Artifacts feed name
+  artifactVersion: '1.0.$(Build.BuildId)'
 
 stages:
   - stage: Build
@@ -14,10 +15,10 @@ stages:
       - job: BuildJob
         steps:
           - task: UseDotNet@2
-            displayName: 'Install .NET SDK'
             inputs:
               packageType: 'sdk'
-              version: '6.x'  # Specify the .NET SDK version as needed
+              version: '8.x.x'  # Specify the required .NET SDK version
+            displayName: 'Install .NET SDK'
 
           - task: NuGetAuthenticate@1
             displayName: 'Authenticate with Azure Artifacts'
@@ -31,13 +32,11 @@ stages:
             displayName: 'Build Project'
 
           - script: |
-              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:PackageVersion=$(artifactVersion)
             displayName: 'Pack Project into NuGet Package'
 
-          - task: DotNetCoreCLI@2
+          - script: |
+              dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source $(artifactName) --api-key $(System.AccessToken)
             displayName: 'Publish NuGet Package to Azure Artifacts'
-            inputs:
-              command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-              nuGetFeedType: 'internal'
-              publishVstsFeed: 'matan-feed'
+            env:
+              NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
