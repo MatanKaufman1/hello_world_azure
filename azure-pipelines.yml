@@ -4,7 +4,6 @@ trigger:
 pool:
   name: matanAgent  
 
-
 jobs:
   - job: Build-Job
     steps:
@@ -13,21 +12,23 @@ jobs:
         packageType: 'sdk'
         version: '8.x'  
         installationPath: $(Agent.ToolsDirectory)/dotnet
+      displayName: 'Install .NET SDK'
 
     - task: NuGetToolInstaller@1
       displayName: 'Install NuGet Tool'
     
     - task: NuGetAuthenticate@1
-      displayName: 'NuGet Authenticate'
+      displayName: 'Authenticate with NuGet'
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
         projects: './azure-helloWorld.csproj'
-      displayName: 'Restore dependencies'
+      displayName: 'Restore Dependencies'
 
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
         projects: './azure-helloWorld.csproj'
         arguments: '--configuration Release'
-      displayName: 'Build project'
+      displayName: 'Build Project'
