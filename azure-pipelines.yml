@@ -19,6 +19,14 @@ stages:
               packageType: 'sdk'
             displayName: 'Install .NET SDK'
 
+        steps:
+        - task: gittools.gitversion.gitversion-task.GitVersion@5
+          displayName: 'Execute GitVersion'
+          inputs:
+            useConfigFile: true
+            configFilePath: 'GitVersion.yml'  # Path to your GitVersion.yml file
+
+
           - task: NuGetAuthenticate@1
             displayName: 'Authenticate with Azure Artifacts'
 
