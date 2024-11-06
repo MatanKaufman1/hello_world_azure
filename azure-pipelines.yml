@@ -17,7 +17,7 @@ jobs:
         packageType: 'sdk'
         version: '8.x'  
         installationPath: $(Agent.ToolsDirectory)/dotnet
-        
+
     - task: NuGetToolInstaller@1
       displayName: 'Install NuGet Tool'
     
@@ -47,9 +47,8 @@ jobs:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Pack The Project'
 
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        publishVstsFeed: 'matan-feed'
-      displayName: 'Publish NuGet Package to Azure Artifacts'
+    - script: |
+          dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source $(artifactName) --api-key $(System.AccessToken)
+          displayName: 'Publish NuGet Package to Azure Artifacts'
+          env:
+          NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
