@@ -48,13 +48,9 @@ jobs:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Pack The Project'
 
-   
-    
-
     - task: DotNetCoreCLI@2
       inputs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        nuGetFeedType: 'internal'
-        publishVstsFeed: '$(artifactName)'
+        publishVstsFeed: 'matan-feed'
       displayName: 'Publish NuGet Package to Azure Artifacts'
