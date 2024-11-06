@@ -47,6 +47,12 @@ jobs:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Pack The Project'
 
+    - script: |
+        sudo apt-get update
+        sudo apt-get install -y mono-complete
+      displayName: 'Install Mono'
+  
+
     - task: NuGetCommand@2
       inputs:
         command: 'push'
