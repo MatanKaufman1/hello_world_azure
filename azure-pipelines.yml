@@ -19,7 +19,7 @@ stages:
               packageType: 'sdk'
               version: '6.x'  # Specify the .NET SDK version as needed
 
-          - task: gittools.gitversion.gitversion-task.GitVersion@5
+          - task: gittools.gitversion.execute@0
             displayName: 'Execute GitVersion'
             inputs:
               useConfigFile: true
