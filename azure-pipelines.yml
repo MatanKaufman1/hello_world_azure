@@ -47,8 +47,10 @@ jobs:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Pack The Project'
 
-    - script: |
-          dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source $(artifactName) --api-key $(System.AccessToken)
-          displayName: 'Publish NuGet Package to Azure Artifacts'
-          env:
-            NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
+    - task: NuGetCommand@2
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        publishVstsFeed: 'feed-matan'
+      displayName: 'Publish NuGet Package to Azure Artifacts'
+    
