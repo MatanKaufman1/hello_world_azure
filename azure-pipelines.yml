@@ -15,7 +15,6 @@ jobs:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '5.x.x'  # Replace with the specific version your project requires
       displayName: 'Install .NET SDK'
 
     - task: NuGetToolInstaller@1
