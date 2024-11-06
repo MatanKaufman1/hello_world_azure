@@ -32,3 +32,10 @@ jobs:
         projects: './azure-helloWorld.csproj'
         arguments: '--configuration Release'
       displayName: 'Build Project'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'pack'
+        projects: './azure-helloWorld.csproj'
+        arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+    displayName: 'Pack The Project'
