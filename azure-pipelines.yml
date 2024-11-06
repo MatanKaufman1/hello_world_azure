@@ -50,5 +50,5 @@ jobs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
         nuGetFeedType: 'internal'
-        publishVstsFeed: '$(artifactName)'
+        publishVstsFeed: 'matan-feed'
       displayName: 'Publish NuGet Package to Azure Artifacts'
