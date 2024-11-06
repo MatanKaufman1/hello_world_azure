@@ -2,12 +2,11 @@ trigger:
   - main
 
 pool:
-  name: matanAgent  
+  name: matanAgent
 
 variables:
   buildConfiguration: 'Release'
   artifactName: 'matan-feed'  # Ensure this matches your Azure Artifacts feed name
-  artifactVersion: '1.0.$(Build.BuildId)'
 
 stages:
   - stage: Build
@@ -15,17 +14,21 @@ stages:
       - job: BuildJob
         steps:
           - task: UseDotNet@2
+            displayName: 'Install .NET SDK'
             inputs:
               packageType: 'sdk'
-            displayName: 'Install .NET SDK'
+              version: '6.x'  # Specify the .NET SDK version as needed
 
-        
           - task: gittools.gitversion.gitversion-task.GitVersion@5
             displayName: 'Execute GitVersion'
             inputs:
               useConfigFile: true
               configFilePath: 'GitVersion.yml'  # Path to your GitVersion.yml file
+            name: gitVersion
 
+          - script: |
+              echo "##vso[task.setvariable variable=artifactVersion]$(gitVersion.FullSemVer)"
+            displayName: 'Set Artifact Version'
 
           - task: NuGetAuthenticate@1
             displayName: 'Authenticate with Azure Artifacts'
@@ -47,6 +50,3 @@ stages:
             displayName: 'Publish NuGet Package to Azure Artifacts'
             env:
               NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
-
-          
-            
