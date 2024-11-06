@@ -1,31 +1,15 @@
-# azure-pipelines.yml
-
 trigger:
-- main
+  - main
 
 pool:
   name: matanAgent  
 
 stages:
-- stage: CreateEnv
-  jobs:
-    - job: SetupEnvironment
-      steps:
-        - script: |
-            ll
-            python3 -m venv myenv
-            source myenv/bin/activate
-            python -m pip install --upgrade pip
-          displayName: 'Create and activate virtual environment'
-
-- stage: Build
-  dependsOn: CreateEnv
-  jobs:
-    - job: BuildJob
-      steps:
-        - script: |
-            ll
-            source myenv/bin/activate
-            dotnet build ./azure-helloworld.csproj --configuration Release
-          displayName: 'Build project'
-
+  - stage: Build
+    jobs:
+      - job: BuildJob
+        steps:
+          - script: |
+              ls -ltr
+              dotnet build ./azure-helloworld.csproj --configuration Release
+            displayName: 'Build project'
