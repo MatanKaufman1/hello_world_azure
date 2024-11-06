@@ -4,10 +4,10 @@ trigger:
 pool:
   name: matanAgent  
 
-  avariables:
+variables:
   buildConfiguration: 'Release'
-  artifactName: 'matan-feed'
-  rtifactVersion: '1.0.$(Build.BuildId)'
+  artifactName: 'matan-feed'  
+  artifactVersion: '1.0.$(Build.BuildId)'
 
 jobs:
   - job: Build_Job
@@ -35,19 +35,20 @@ jobs:
       inputs:
         command: 'build'
         projects: './azure-helloWorld.csproj'
-        arguments: '--configuration Release'
+        arguments: '--configuration $(buildConfiguration)'
       displayName: 'Build Project'
 
     - task: DotNetCoreCLI@2
       inputs:
         command: 'pack'
         projects: './azure-helloWorld.csproj'
-        arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       displayName: 'Pack The Project'
 
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
       inputs:
         command: 'push'
-        publishVstsFeed: $(artifactName)
         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: '$(artifactName)'
       displayName: 'Publish NuGet Package to Azure Artifacts'
