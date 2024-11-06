@@ -48,7 +48,7 @@ jobs:
       displayName: 'Pack The Project'
 
     - script: |
-        sudo apt-get install -y mono-complete
+        sudo apt install -y mono-complete
       displayName: 'Install Mono'
   
 
