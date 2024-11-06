@@ -6,27 +6,14 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'matan-feed'  # Ensure this matches your Azure Artifacts feed name
+  artifactName: 'matan-feed'
+  artifactVersion: '1.0.$(Build.BuildId)'
 
 stages:
   - stage: Build
     jobs:
       - job: BuildJob
         steps:
-          - task: UseDotNet@2
-            displayName: 'Install .NET SDK'
-            inputs:
-              packageType: 'sdk'
-              version: '6.x'  # Specify the .NET SDK version as needed
-
-          - script: |
-              npx commitizen init cz-conventional-changelog --save-dev --save-exact
-            displayName: 'Initialize Commitizen'
-
-          - script: |
-              npx cz --version
-            displayName: 'Verify Commitizen Installation'
-
           - task: NuGetAuthenticate@1
             displayName: 'Authenticate with Azure Artifacts'
 
@@ -39,11 +26,12 @@ stages:
             displayName: 'Build Project'
 
           - script: |
-              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:PackageVersion=$(artifactVersion)
             displayName: 'Pack Project into NuGet Package'
 
-          - script: |
-              dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source $(artifactName) --api-key $(System.AccessToken)
+          - task: NuGetCommand@2
+            inputs:
+              command: 'push'
+              publishVstsFeed: $(artifactName)
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
             displayName: 'Publish NuGet Package to Azure Artifacts'
-            env:
-              NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED: true
