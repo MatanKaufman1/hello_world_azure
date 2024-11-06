@@ -6,14 +6,19 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'matan-feed'
-  artifactVersion: '1.0.$(Build.BuildId)'
+  artifactName: 'matan-feed'  # Ensure this matches your Azure Artifacts feed name
 
 stages:
   - stage: Build
     jobs:
       - job: BuildJob
         steps:
+          - task: UseDotNet@2
+            displayName: 'Install .NET SDK'
+            inputs:
+              packageType: 'sdk'
+              version: '6.x'  # Specify the .NET SDK version as needed
+
           - task: NuGetAuthenticate@1
             displayName: 'Authenticate with Azure Artifacts'
 
@@ -26,12 +31,13 @@ stages:
             displayName: 'Build Project'
 
           - script: |
-              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:PackageVersion=$(artifactVersion)
+              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
             displayName: 'Pack Project into NuGet Package'
 
-          - task: NuGetCommand@2
+          - task: DotNetCoreCLI@2
+            displayName: 'Publish NuGet Package to Azure Artifacts'
             inputs:
               command: 'push'
-              publishVstsFeed: $(artifactName)
               packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-            displayName: 'Publish NuGet Package to Azure Artifacts'
+              nuGetFeedType: 'internal'
+              publishVstsFeed: 'matan-feed'
