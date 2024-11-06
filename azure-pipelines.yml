@@ -4,21 +4,30 @@ trigger:
 pool:
   name: matanAgent  
 
-stages:
-  - stage: Build
-    jobs:
-      - job: BuildJob
-        steps:
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: 'restore'
-              projects: './azure-helloWorld.csproj'
-            displayName: 'Restore dependencies'
 
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: 'build'
-              projects: './azure-helloWorld.csproj'
-              arguments: '--configuration Release'
-            displayName: 'Build project'
-  
+jobs:
+  - job: Build-Job
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.x'  
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet Tool'
+    
+    - task: NuGetAuthenticate@1
+      displayName: 'NuGet Authenticate'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: './azure-helloWorld.csproj'
+      displayName: 'Restore dependencies'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: './azure-helloWorld.csproj'
+        arguments: '--configuration Release'
+      displayName: 'Build project'
