@@ -11,5 +11,5 @@ stages:
         steps:
           - script: |
               ls -ltr
-              dotnet build ./azure-helloworld.csproj --configuration Release
+              dotnet build  --configuration Release
             displayName: 'Build project'
