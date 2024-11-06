@@ -2,27 +2,36 @@ trigger:
   - main
 
 pool:
-  name: matanAgent  
+  name: matanAgent
+
+variables:
+  buildConfiguration: 'Release'
+  artifactName: 'matan-feed'
+  artifactVersion: '1.0.$(Build.BuildId)'
 
 stages:
   - stage: Build
     jobs:
       - job: BuildJob
         steps:
+          - task: NuGetAuthenticate@1
+            displayName: 'Authenticate with Azure Artifacts'
+
           - script: |
-              dotnet build  --configuration Release
-              dotnet pack . --configuration Release
-            displayName: 'Build project'
-        
+              dotnet restore
+            displayName: 'Restore NuGet Packages'
+
+          - script: |
+              dotnet build --configuration $(buildConfiguration)
+            displayName: 'Build Project'
+
+          - script: |
+              dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:PackageVersion=$(artifactVersion)
+            displayName: 'Pack Project into NuGet Package'
 
           - task: NuGetCommand@2
             inputs:
               command: 'push'
-              publishVstsFeed: 'matan-feed'
-              packageFile: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-              versioningScheme: 'off'
-              versionPublish: $(artifactVersion)
+              publishVstsFeed: $(artifactName)
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
             displayName: 'Publish NuGet Package to Azure Artifacts'
-
-          
-            
