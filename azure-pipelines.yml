@@ -24,9 +24,9 @@ stages:
             inputs:
               versionSpec: '14.x'  # Specify the Node.js version as needed
 
-          - script: |
-              npm install
-            displayName: 'Install Dependencies'
+#          - script: |
+#              npm install
+#            displayName: 'Install Dependencies'
 
           - script: |
               npx commitizen init cz-conventional-changelog --save-dev --save-exact
