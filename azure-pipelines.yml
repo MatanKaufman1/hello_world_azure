@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'matanFeed'
+  artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)'
 
 jobs:
