@@ -8,7 +8,7 @@ variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
-  jdkFile: './jre1.8.0_431'
+  jdkFile: '/home/ubuntu/jre-8u431-linux-x64.tar.gz'
 
 jobs:
   - job: Build_Job
