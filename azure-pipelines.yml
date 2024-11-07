@@ -31,8 +31,6 @@ jobs:
         inputs:
           command: 'restore'
           projects: './azure-helloWorld.csproj'
-          feedsToUse: 'select'
-          vstsFeed: '$(artifactName)'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
@@ -46,13 +44,6 @@ jobs:
         inputs:
           command: 'pack'
           projects: './azure-helloWorld.csproj'
-          arguments: '--configuration $(buildConfiguration)'
           outputDir: '$(Build.ArtifactStagingDirectory)'
 
-      - task: NuGetCommand@2
-        displayName: 'Push to Feed'
-        inputs:
-          command: 'push'
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-          nuGetFeedType: 'internal'
-          publishVstsFeed: '$(artifactName)'
+      
