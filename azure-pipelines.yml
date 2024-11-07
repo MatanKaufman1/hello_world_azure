@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'feed-matan'
+  artifactName: 'matan'
   artifactVersion: '1.0.$(Build.BuildId)'
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
           command: 'restore'
           projects: './azure-helloWorld.csproj'
           feedsToUse: 'select'
-          vstsFeed: 'feed-matan'
+          vstsFeed: 'matan'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
@@ -55,4 +55,4 @@ jobs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
-          publishVstsFeed: '$(artifactName)'
+          publishVstsFeed: 'matan'
