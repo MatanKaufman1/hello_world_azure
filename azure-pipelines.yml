@@ -49,13 +49,13 @@ jobs:
           arguments: '--configuration $(buildConfiguration)'
           outputDir: '$(Build.ArtifactStagingDirectory)'
 
-      - task: NuGetCommand@2
-        displayName: 'Push to Feed'
+      - task: DotNetCoreCLI@2
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
-          publishVstsFeed: 'feed-matan'
+          publishVstsFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
+      
       - task: JavaToolInstaller@0
         inputs:
           versionSpec: '8'
