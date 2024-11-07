@@ -61,6 +61,8 @@ jobs:
           versionEnvVar: artifactVersion
 
       - task: SonarQubeAnalyze@6
+        inputs:
+          jdkversion: 'JAVA_HOME_21_X64'
 
       - task: SonarQubePublish@6
         inputs:
