@@ -7,7 +7,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
-  artifactVersion: '1.0.$(Build.BuildId)'
+  artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
 
 jobs:
   - job: Build_Job
@@ -22,6 +22,14 @@ jobs:
         displayName: 'Install NuGet Tool'
         inputs:
           versionSpec: '5.x'
+
+      - task: SonarQubePrepare@6
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          organization: 'matankaufman1'
+          projectKey: 'matankaufman1'
+          projectName: 'matankaufman1'
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
@@ -39,6 +47,10 @@ jobs:
           projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkVersion: 'JAVA_HOME_21_X64'
+
       - task: DotNetCoreCLI@2
         displayName: 'Pack Project'
         inputs:
@@ -48,13 +60,11 @@ jobs:
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
 
-      
       - task: DotNetCoreCLI@2
+        displayName: 'Push nupkg to Artifact'
         inputs:
-          arguments: '--skip-duplicate'
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
           publishVstsFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
-        displayName: 'Push nupkg to Artifact'
-
+          arguments: '--skip-duplicate'
