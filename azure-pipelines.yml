@@ -49,7 +49,10 @@ jobs:
       
       - task: DotNetCoreCLI@2
         inputs:
+          arguments: '--skip-duplicate'
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
           publishVstsFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
+        displayName: 'Push nupkg to Artifact'
+
