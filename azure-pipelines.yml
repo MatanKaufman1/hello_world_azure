@@ -8,6 +8,8 @@ variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
+  jdkFile: '/home/ubuntu/jre-8u431-linux-x64.tar.gz'
+
 
 jobs:
   - job: Build_Job
@@ -25,11 +27,11 @@ jobs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
+          jdkFile: $(jdkFile)
+ 
 
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
-        inputs:
-          versionSpec: '5.x'
 
       - task: SonarQubePrepare@6
         inputs:
