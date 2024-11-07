@@ -45,6 +45,8 @@ jobs:
           command: 'pack'
           projects: './azure-helloWorld.csproj'
           outputDir: '$(Build.ArtifactStagingDirectory)'
+          versioningScheme: 'byEnvVar'
+          versionEnvVar: artifactVersion
 
       
       - task: DotNetCoreCLI@2
