@@ -12,6 +12,9 @@ variables:
 jobs:
   - job: Build_Job
     steps:
+      - checkout: self
+        fetchDepth: 0
+
       - task: UseDotNet@2
         inputs:
           packageType: 'sdk'
@@ -47,9 +50,6 @@ jobs:
           projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
-      - task: SonarQubeAnalyze@6
-        inputs:
-          jdkVersion: 'JAVA_HOME_21_X64'
 
       - task: DotNetCoreCLI@2
         displayName: 'Pack Project'
