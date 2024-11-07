@@ -60,6 +60,12 @@ jobs:
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
 
+      - task: SonarQubeAnalyze@6
+
+      - task: SonarQubePublish@6
+        inputs:
+          pollingTimeoutSec: '300'
+
       - task: DotNetCoreCLI@2
         displayName: 'Push nupkg to Artifact'
         inputs:
