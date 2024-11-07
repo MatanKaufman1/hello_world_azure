@@ -7,21 +7,39 @@ pool:
 variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
-  artifactVersion: '1.0.$(Build.BuildId)'
+  artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
+  jdkFile: '/home/ubuntu/jre-8u431-linux-x64.tar.gz'
+
 
 jobs:
   - job: Build_Job
     steps:
+      - checkout: self
+        fetchDepth: 0
+
       - task: UseDotNet@2
         inputs:
           packageType: 'sdk'
           version: '8.x'
           installationPath: $(Agent.ToolsDirectory)/dotnet
+      - task: JavaToolInstaller@0
+        inputs:
+          versionSpec: '21'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'LocalDirectory'
+          jdkFile: $(jdkFile)
+ 
 
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
+
+      - task: SonarQubePrepare@6
         inputs:
-          versionSpec: '5.x'
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          organization: 'matankaufman1'
+          projectKey: 'matankaufman1'
+          projectName: 'matankaufman1'
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
@@ -30,7 +48,7 @@ jobs:
         displayName: 'Restore Dependencies'
         inputs:
           command: 'restore'
-          projects: './azure-helloWorld.csproj'
+          projects: '/azure-helloWorld.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
@@ -38,6 +56,7 @@ jobs:
           command: 'build'
           projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
+
 
       - task: DotNetCoreCLI@2
         displayName: 'Pack Project'
@@ -48,4 +67,18 @@ jobs:
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
 
-      
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkversion: 'JAVA_HOME_21_X64'
+
+      - task: SonarQubePublish@6
+        inputs:
+          pollingTimeoutSec: '300'
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Push nupkg to Artifact'
+        inputs:
+          command: 'push'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          nuGetFeedType: 'internal'
+          publishVstsFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
