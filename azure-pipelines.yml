@@ -25,6 +25,7 @@ jobs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
+          jdkFile: /home/ubuntu/jre1.8.0_431
 
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
