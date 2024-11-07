@@ -2,11 +2,11 @@ trigger:
   - main
 
 pool:
-  name: matanAgent
+  name: matanFeed
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'feed-matan'
+  artifactName: 'matanFeed'
   artifactVersion: '1.0.$(Build.BuildId)'
 
 jobs:
@@ -55,4 +55,4 @@ jobs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
-          publishVstsFeed: 'feed-matan'
+          publishVstsFeed: '$(artifactName)'
