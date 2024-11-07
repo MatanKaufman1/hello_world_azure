@@ -25,13 +25,6 @@ jobs:
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
-        
-      - task: NuGetCommand@2
-        inputs:
-          command: push
-          packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
-          publishVstsFeed: 'feed-matan'
-      
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
@@ -52,7 +45,7 @@ jobs:
         displayName: 'Pack Project'
         inputs:
           command: 'pack'
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
           outputDir: '$(Build.ArtifactStagingDirectory)'
 
