@@ -2,60 +2,57 @@ trigger:
   - main
 
 pool:
-  name: matanAgent  
+  name: matanAgent
 
 variables:
   buildConfiguration: 'Release'
-  artifactName: 'feed-matan'  
+  artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)'
 
 jobs:
   - job: Build_Job
     steps:
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '8.x'  
-        installationPath: $(Agent.ToolsDirectory)/dotnet
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '8.x'
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
-    - task: NuGetToolInstaller@1
-      displayName: 'Install NuGet Tool'
-    
-    - task: NuGetAuthenticate@1
-      displayName: 'Authenticate with NuGet'
-    
-    - task: NuGetAuthenticate@1
-      displayName: 'Authenticate with Azure Artifacts'
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet Tool'
+        inputs:
+          versionSpec: '5.x'
 
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
-        projects: './azure-helloWorld.csproj'
-      displayName: 'Restore Dependencies'
+      - task: NuGetAuthenticate@1
+        displayName: 'Authenticate with Azure Artifacts'
 
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        projects: './azure-helloWorld.csproj'
-        arguments: '--configuration $(buildConfiguration)'
-      displayName: 'Build Project'
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore Dependencies'
+        inputs:
+          command: 'restore'
+          projects: './azure-helloWorld.csproj'
+          feedsToUse: 'select'
+          vstsFeed: 'feed-matan'
 
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'pack'
-        projects: './azure-helloWorld.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-      displayName: 'Pack The Project'
+      - task: DotNetCoreCLI@2
+        displayName: 'Build Project'
+        inputs:
+          command: 'build'
+          projects: './azure-helloWorld.csproj'
+          arguments: '--configuration $(buildConfiguration)'
 
-    - script: |
-        sudo apt install -y mono-complete
-      displayName: 'Install Mono'
-  
+      - task: DotNetCoreCLI@2
+        displayName: 'Pack Project'
+        inputs:
+          command: 'pack'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          arguments: '--configuration $(buildConfiguration)'
+          outputDir: '$(Build.ArtifactStagingDirectory)'
 
-    - task: NuGetCommand@2
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        publishVstsFeed: 'feed-matan'
-      displayName: 'Publish NuGet Package to Azure Artifacts'
-    
+      - task: NuGetCommand@2
+        displayName: 'Push to Feed'
+        inputs:
+          command: 'push'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          nuGetFeedType: 'internal'
+          publishVstsFeed: 'feed-matan'
