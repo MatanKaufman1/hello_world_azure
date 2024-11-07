@@ -7,45 +7,32 @@ pool:
 variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
-  artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)-$(Build.SourceVersion)'
-  jdkFile: '/home/ubuntu/jre-8u431-linux-x64.tar.gz'
+  artifactVersion: '1.0.$(Build.BuildId)'
 
 jobs:
   - job: Build_Job
     steps:
-      - checkout: self
-        fetchDepth: 0
-
       - task: UseDotNet@2
         inputs:
           packageType: 'sdk'
           version: '8.x'
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-      - task: JavaToolInstaller@0
-        inputs:
-          versionSpec: '21'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: 'LocalDirectory'
-          jdkFile: $(jdkFile)
-
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
         inputs:
           versionSpec: '5.x'
 
-      - task: SonarQubePrepare@6
-        inputs:
-          SonarQube: 'SonarQube'
-          scannerMode: 'MSBuild'
-          organization: 'matankaufman1'
-          projectKey: 'matankaufman1'
-          projectName: 'matankaufman1'
-
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
 
-
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore Dependencies'
+        inputs:
+          command: 'restore'
+          projects: './azure-helloWorld.csproj'
+          feedsToUse: 'select'
+          vstsFeed: 'feed-matan'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
@@ -58,23 +45,14 @@ jobs:
         displayName: 'Pack Project'
         inputs:
           command: 'pack'
-          projects: './azure-helloWorld.csproj'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          arguments: '--configuration $(buildConfiguration)'
           outputDir: '$(Build.ArtifactStagingDirectory)'
-          versioningScheme: 'byBuildNumber'
 
-      - task: SonarQubeAnalyze@6
-        inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
-
-      - task: SonarQubePublish@6
-        inputs:
-          pollingTimeoutSec: '300'
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Push nupkg to Artifact'
+      - task: NuGetCommand@2
+        displayName: 'Push to Feed'
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
           publishVstsFeed: 'feed-matan'
-          arguments: '--skip-duplicate'
