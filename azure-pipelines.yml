@@ -45,11 +45,7 @@ jobs:
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Restore Dependencies'
-        inputs:
-          command: 'restore'
-          projects: './azure-helloWorld.csproj'
+
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
