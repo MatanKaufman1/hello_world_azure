@@ -7,7 +7,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
-  artifactVersion: '1.1.$(Build.BuildId)-$(Build.SourceBranchName)'
+  artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
   jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
 
 jobs:
@@ -73,5 +73,8 @@ jobs:
         inputs:
           command: 'push'
           publishVstsFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
-          packagesToPush: '/home/ubuntu/bin/Release/azure-helloWorld.1.0.0.nupkg'
+          packagesToPush: '/home/ubuntu/bin/Release/azure-helloWorld.$(artifactVersion).nupkg'
           nuGetFeedType: 'internal'
+
+
+     
