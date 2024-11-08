@@ -7,7 +7,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
-  artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
+  artifactVersion: '1.1.$(Build.BuildId)-$(Build.SourceBranchName)'
   jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
 
 jobs:
