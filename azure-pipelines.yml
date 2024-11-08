@@ -74,6 +74,7 @@ jobs:
           outputDir: '$(Build.ArtifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
+          arguments: -V
 
       - task: DotNetCoreCLI@2
         displayName: 'Push NuGet Package to Artifact'
