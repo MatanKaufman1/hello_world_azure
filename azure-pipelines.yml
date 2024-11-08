@@ -42,8 +42,8 @@ jobs:
           SonarQube: 'SonarQube'
           scannerMode: 'MSBuild'
           organization: 'matankaufman1'
-          projectKey: 'matankaufman1'
-          projectName: 'matankaufman1'
+          projectKey: 'matankaufman1_hello-world-azure'
+          projectName: 'hello-world-azure'
           displayName: 'Prepare SonarQube Analysis'
           scripts: |
             sudo apt install openjdk-17-jdk -y
