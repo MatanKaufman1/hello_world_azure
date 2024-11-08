@@ -34,7 +34,7 @@ jobs:
 
       - task: JavaToolInstaller@0
         inputs:
-          versionSpec: '11'
+          versionSpec: '17'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
           jdkFile: $(jdkFile)
@@ -50,6 +50,8 @@ jobs:
           projectKey: 'matankaufman1'
           projectName: 'matankaufman1'
           displayName: 'Prepare SonarQube Analysis'
+          scripts: |
+            sudo apt install openjdk-17-jdk -y
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
