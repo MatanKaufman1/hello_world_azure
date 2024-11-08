@@ -36,14 +36,6 @@ jobs:
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
 
-      - task: SonarQubePrepare@6
-        inputs:
-          SonarQube: 'SonarQube'
-          scannerMode: 'MSBuild'
-          organization: 'matankaufman1'
-          projectKey: 'matankaufman1'
-          projectName: 'matankaufman1'
-
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
         inputs:
@@ -56,14 +48,6 @@ jobs:
           command: 'build'
           projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
-
-      - task: SonarQubeAnalyze@6
-        inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
-
-      - task: SonarQubePublish@6
-        inputs:
-          pollingTimeoutSec: '300'
 
       - task: DotNetCoreCLI@2
         displayName: 'Pack Project'
