@@ -15,7 +15,6 @@ jobs:
     steps:
       - checkout: self
         fetchDepth: 0
-        path: "workdir"
 
       - task: UseDotNet@2
         inputs:
@@ -23,15 +22,16 @@ jobs:
           version: '8.x'
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet Tool'
+
       - task: JavaToolInstaller@0
         inputs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
           jdkFile: $(jdkFile)
-
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet Tool'
+      
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
@@ -54,7 +54,7 @@ jobs:
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: '/home/ubuntu/azure-helloWorld.csproj'
+          projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: SonarQubeAnalyze@6
