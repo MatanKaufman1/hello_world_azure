@@ -33,7 +33,7 @@ jobs:
           jdkFile: $(jdkFile)
 
 
-          
+
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
 
@@ -60,6 +60,9 @@ jobs:
           command: 'build'
           projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
+          scripts: |
+              java -version
+          displayName: 'verify java version'
 
       - task: SonarQubeAnalyze@6
         inputs:
