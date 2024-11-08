@@ -39,15 +39,9 @@ jobs:
         displayName: 'Authenticate with Azure Artifacts'
 
       - task: DotNetCoreCLI@2
-        displayName: 'Restore Dependencies'
-        inputs:
-          command: 'restore'
-
-      - task: DotNetCoreCLI@2
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: '/home/ubuntu/_work/1/workdir/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: DotNetCoreCLI@2
