@@ -45,8 +45,7 @@ jobs:
           projectKey: 'matankaufman1_hello-world-azure'
           projectName: 'hello-world-azure'
           displayName: 'Prepare SonarQube Analysis'
-          scripts: |
-            sudo apt install openjdk-17-jdk -y
+         
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
@@ -64,7 +63,7 @@ jobs:
           
       - task: SonarQubeAnalyze@6
 
-      
+
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
