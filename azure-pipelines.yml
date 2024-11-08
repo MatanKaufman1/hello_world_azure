@@ -15,7 +15,6 @@ jobs:
     steps:
       - checkout: self
         fetchDepth: 0
-        path: "workdir"
 
       - task: UseDotNet@2
         inputs:
@@ -26,22 +25,24 @@ jobs:
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
 
-      - task: JavaToolInstaller@0
-        inputs:
-          versionSpec: '21'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: 'LocalDirectory'
-          jdkFile: $(jdkFile)
-      
-
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
+
+
+      - task: SonarQubePrepare@6
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          organization: 'matankaufman1'
+          projectKey: 'matankaufman1'
+          projectName: 'matankaufman1'
+        displayName: 'Prepare SonarQube Analysis'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
         inputs:
           command: 'restore'
-          projects: '/workdir/azure-helloWorld.csproj'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
@@ -54,7 +55,7 @@ jobs:
         displayName: 'Pack Project'
         inputs:
           command: 'pack'
-          projects: './azure-helloWorld.csproj'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           outputDir: '$(Build.ArtifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
