@@ -54,7 +54,7 @@ jobs:
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: './azure-helloWorld.csproj'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: SonarQubeAnalyze@6
