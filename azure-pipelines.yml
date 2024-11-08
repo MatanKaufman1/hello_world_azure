@@ -57,10 +57,7 @@ jobs:
           projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
-      - task: SonarQubeAnalyze@6
-        argments: -V
-        inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
+
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
@@ -75,7 +72,7 @@ jobs:
           outputDir: '$(Build.ArtifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
-          arguments: -V
+          verbosityPack: Detailed
 
       - task: DotNetCoreCLI@2
         displayName: 'Push NuGet Package to Artifact'
