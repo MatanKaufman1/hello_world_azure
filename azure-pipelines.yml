@@ -40,8 +40,8 @@ jobs:
         inputs:
           SonarQube: 'SonarQube'
           scannerMode: 'MSBuild'
-          projectKey: 'your_project_key'
-          projectName: 'your_project_name'
+          projectKey: 'matankaufman1'
+          projectName: 'matankaufman1'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
