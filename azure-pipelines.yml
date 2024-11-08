@@ -9,6 +9,7 @@ variables:
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
   jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
+  project: '**/*.csproj'
 
 jobs:
   - job: Build_Job
@@ -71,7 +72,7 @@ jobs:
           projects: '$(project)'
           versioningScheme: 'byEnvVar' 
           versionEnvVar: 'artifactVersion'
-        displayName: 'Pack project with branch $(Build.SourceBranchName) and version $(packageName)'
+        displayName: 'Pack project with branch $(Build.SourceBranchName)'
     
 
       - script: |
