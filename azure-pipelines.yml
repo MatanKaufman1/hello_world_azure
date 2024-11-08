@@ -15,9 +15,7 @@ jobs:
     steps:
       - checkout: self
         fetchDepth: 0
-        path: "workdir"
       - script: |
-          cd _work/1/workdir
           git pull git@github.com:MatanKaufman1/hello_world_azure.git
 
       - task: UseDotNet@2
