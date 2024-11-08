@@ -8,11 +8,7 @@ variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
-<<<<<<< HEAD
-  jdkFile: '/home/ubuntu/temp/jdk-17_linux-x64_bin.tar.gz'  
-=======
   jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
->>>>>>> 4e378e0bab09e0d03b6ae5744ed1dc8f02f4de02
 
 jobs:
   - job: Build_Job
@@ -35,10 +31,17 @@ jobs:
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
           jdkFile: $(jdkFile)
-      
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
+
+      - task: SonarQubePrepare@6
+        displayName: 'Prepare SonarQube Analysis'
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          projectKey: 'your_project_key'
+          projectName: 'your_project_name'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
@@ -57,9 +60,9 @@ jobs:
         displayName: 'Run SonarQube Analysis'
 
       - task: SonarQubePublish@6
+        displayName: 'Publish SonarQube Results'
         inputs:
           pollingTimeoutSec: '300'
-        displayName: 'Publish SonarQube Results'
 
       - task: DotNetCoreCLI@2
         displayName: 'Pack Project'
