@@ -58,6 +58,7 @@ jobs:
           arguments: '--configuration $(buildConfiguration)'
 
       - task: SonarQubeAnalyze@6
+        argments: -V
         inputs:
           jdkversion: 'JAVA_HOME_21_X64'
 
