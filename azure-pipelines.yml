@@ -16,6 +16,8 @@ jobs:
       - checkout: self
         fetchDepth: 0
         path: "workdir"
+      - script: |
+          git pull git@github.com:MatanKaufman1/hello_world_azure.git
 
       - task: UseDotNet@2
         inputs:
