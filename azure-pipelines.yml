@@ -58,7 +58,6 @@ jobs:
           arguments: '--configuration $(buildConfiguration)'
 
       
-
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
         inputs:
@@ -77,4 +76,6 @@ jobs:
           nuGetFeedType: 'internal'
 
 
-     
+      - script: |
+          dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/feed-matan/nuget/v3/index.json" --api-key $(System.AccessToken)
+        displayName: 'Push NuGet Package to Azure Artifacts'
