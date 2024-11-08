@@ -69,5 +69,5 @@ jobs:
 
 
       - script: |
-          dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/feed-matan/nuget/v3/index.json" --api-key $(System.AccessToken)
+          dotnet nuget push /home/ubuntu/bin/Release/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/feed-matan/nuget/v3/index.json" --api-key $(System.AccessToken)
         displayName: 'Push NuGet Package to Azure Artifacts'
