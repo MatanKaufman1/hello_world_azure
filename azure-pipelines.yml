@@ -68,7 +68,7 @@ jobs:
 
       - task: SonarQubeAnalyze@6
         inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
+          jdkversion: 'JAVA_HOME_17_X64_jre-8u431-linux-x64_tar.gz'
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
