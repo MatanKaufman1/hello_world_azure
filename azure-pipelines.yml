@@ -57,22 +57,18 @@ jobs:
           projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
-     
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkversion: 'JAVA_HOME_21_X64'
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
         inputs:
           pollingTimeoutSec: '300'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Pack Project'
-        inputs:
-          command: 'pack'
-          projects: '/home/ubuntu/azure-helloWorld.csproj'
-          outputDir: '$(Build.ArtifactStagingDirectory)'
-          versioningScheme: 'byEnvVar'
-          versionEnvVar: artifactVersion
-          verbosityPack: Detailed
+      - script: |
+            dotnet pack '/home/ubuntu/azure-helloWorld.csproj'
+        displayName: "pack the package"
 
       - task: DotNetCoreCLI@2
         displayName: 'Push NuGet Package to Artifact'
