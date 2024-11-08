@@ -61,7 +61,6 @@ jobs:
           arguments: '--configuration $(buildConfiguration)'
       
           
-      - task: SonarQubeAnalyze@6
 
 
 
