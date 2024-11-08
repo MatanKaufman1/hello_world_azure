@@ -37,7 +37,7 @@ jobs:
           versionSpec: '17'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
-          jdkFile: $(jdkFile)
+          jdkFile: '/home/ubuntu/temp'
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
