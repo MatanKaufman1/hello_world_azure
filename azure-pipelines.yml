@@ -57,9 +57,7 @@ jobs:
           projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
-      - task: SonarQubeAnalyze@6
-        inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
+    
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
@@ -67,7 +65,7 @@ jobs:
           pollingTimeoutSec: '300'
 
       - script: |
-            dotnet pack '/home/ubuntu/azure-helloWorld.csproj'
+            dotnet pack /home/ubuntu/azure-helloWorld.csproj
         displayName: "pack the package"
 
       - task: DotNetCoreCLI@2
