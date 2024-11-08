@@ -67,7 +67,8 @@ jobs:
           arguments: '--configuration $(buildConfiguration)'
 
       - task: SonarQubeAnalyze@6
-        displayName: 'Run SonarQube Analysis'
+        inputs:
+          jdkversion: 'JAVA_HOME_21_X64'
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
