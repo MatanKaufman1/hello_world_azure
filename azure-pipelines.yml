@@ -8,7 +8,11 @@ variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
+<<<<<<< HEAD
   jdkFile: '/home/ubuntu/temp/jdk-17_linux-x64_bin.tar.gz'  
+=======
+  jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
+>>>>>>> 4e378e0bab09e0d03b6ae5744ed1dc8f02f4de02
 
 jobs:
   - job: Build_Job
