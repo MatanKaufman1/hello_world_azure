@@ -36,12 +36,13 @@ jobs:
         displayName: 'Authenticate with Azure Artifacts'
 
       - task: SonarQubePrepare@6
-        displayName: 'Prepare SonarQube Analysis'
         inputs:
           SonarQube: 'SonarQube'
           scannerMode: 'MSBuild'
+          organization: 'matankaufman1'
           projectKey: 'matankaufman1'
           projectName: 'matankaufman1'
+          displayName: 'Prepare SonarQube Analysis'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
