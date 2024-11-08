@@ -63,12 +63,16 @@ jobs:
         inputs:
           pollingTimeoutSec: '300'
 
-      - script: |
-            dotnet pack /home/ubuntu/azure-helloWorld.csproj
-        displayName: "pack the package"
+     
 
-      
-
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'pack'
+          projects: '$(project)'
+          versioningScheme: 'byEnvVar' 
+          versionEnvVar: 'artifactVersion'
+        displayName: 'Pack project with branch $(Build.SourceBranchName) and version $(packageName)'
+    
 
       - script: |
           dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/feed-matan/nuget/v3/index.json" --api-key $(System.AccessToken)
