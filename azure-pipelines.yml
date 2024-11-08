@@ -33,9 +33,9 @@ jobs:
           jdkFile: $(jdkFile)
 
 
-
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
+
 
       - task: SonarQubePrepare@6
         inputs:
@@ -60,10 +60,10 @@ jobs:
           projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
       
-          
-#      - task: SonarQubeAnalyze@6
-#        inputs:
-#          jdkversion: '/home/ubuntu/work/1/s/JAVA_HOME_21_X64_jre-8u431-linux-x64_tar.gz'
+
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkversion: 'JAVA_HOME_21_X64'
 
 
       - task: SonarQubePublish@6
@@ -75,7 +75,7 @@ jobs:
         displayName: 'Pack Project'
         inputs:
           command: 'pack'
-          projects: '/home/ubuntu/bin/Release/net8.0/azure-helloWorld.dll'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           outputDir: '$(Build.ArtifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
