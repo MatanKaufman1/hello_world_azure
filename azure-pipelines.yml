@@ -42,7 +42,7 @@ jobs:
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: '/home/ubuntu/_work/1/s/azure-helloWorld.csproj'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: DotNetCoreCLI@2
