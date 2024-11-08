@@ -26,7 +26,7 @@ sudo apt-get update && \
 az extension add --name azure-devops
 
 # create new project:
-az devops project create --name "<project_name>" --description "<project_description>"
+az devops project create --name "azure-helloworld --description "<project_description>"
 
 # universal package
 
