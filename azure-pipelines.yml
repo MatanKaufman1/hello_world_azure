@@ -10,28 +10,31 @@ variables:
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
   jdkFile: '/home/ubuntu/jre-8u431-linux-x64.tar.gz'
 
-
 jobs:
   - job: Build_Job
     steps:
       - checkout: self
         fetchDepth: 0
+        path: "/home/ubuntu/workdir"
 
       - task: UseDotNet@2
         inputs:
           packageType: 'sdk'
           version: '8.x'
           installationPath: $(Agent.ToolsDirectory)/dotnet
+
       - task: JavaToolInstaller@0
         inputs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
           jdkFile: $(jdkFile)
- 
 
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
+
+      - task: NuGetAuthenticate@1
+        displayName: 'Authenticate with Azure Artifacts'
 
       - task: SonarQubePrepare@6
         inputs:
@@ -41,14 +44,11 @@ jobs:
           projectKey: 'matankaufman1'
           projectName: 'matankaufman1'
 
-      - task: NuGetAuthenticate@1
-        displayName: 'Authenticate with Azure Artifacts'
-
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
         inputs:
           command: 'restore'
-          projects: '/azure-helloWorld.csproj'
+          projects: './azure-helloWorld.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
@@ -57,6 +57,13 @@ jobs:
           projects: './azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkversion: 'JAVA_HOME_21_X64'
+
+      - task: SonarQubePublish@6
+        inputs:
+          pollingTimeoutSec: '300'
 
       - task: DotNetCoreCLI@2
         displayName: 'Pack Project'
@@ -66,14 +73,6 @@ jobs:
           outputDir: '$(Build.ArtifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
-
-      - task: SonarQubeAnalyze@6
-        inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
-
-      - task: SonarQubePublish@6
-        inputs:
-          pollingTimeoutSec: '300'
 
       - task: DotNetCoreCLI@2
         displayName: 'Push nupkg to Artifact'
