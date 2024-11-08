@@ -8,14 +8,13 @@ variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
-  jdkFile: '/home/ubuntu/temp/jdk-17_linux-x64_bin.tar.gz'  # Update this path to your JDK 17 archive
+  jdkFile: '/home/ubuntu/temp/jdk-17_linux-x64_bin.tar.gz'  
 
 jobs:
   - job: Build_Job
     steps:
       - checkout: self
         fetchDepth: 0
-        path: "workdir"
 
       - task: UseDotNet@2
         inputs:
@@ -23,36 +22,19 @@ jobs:
           version: '8.x'
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-      - task: JavaToolInstaller@0
-        inputs:
-          versionSpec: '17'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: 'LocalDirectory'
-          jdkFile: $(jdkFile)
-          jdkDestinationDirectory: $(Agent.ToolsDirectory)/jdk17
-          cleanDestinationDirectory: true
-        displayName: 'Install JDK 17'
-
-      - script: |
-          export JAVA_HOME=$(Agent.ToolsDirectory)/jdk17
-          export PATH=$JAVA_HOME/bin:$PATH
-          java -version
-        displayName: 'Set JAVA_HOME and Update PATH'
-
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
 
+      - task: JavaToolInstaller@0
+        inputs:
+          versionSpec: '21'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'LocalDirectory'
+          jdkFile: $(jdkFile)
+      
+
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
-
-      - task: SonarQubePrepare@6
-        inputs:
-          SonarQube: 'SonarQube'
-          scannerMode: 'MSBuild'
-          organization: 'matankaufman1'
-          projectKey: 'matankaufman1'
-          projectName: 'matankaufman1'
-        displayName: 'Prepare SonarQube Analysis'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore Dependencies'
@@ -79,7 +61,7 @@ jobs:
         displayName: 'Pack Project'
         inputs:
           command: 'pack'
-          projects: './azure-helloWorld.csproj'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           outputDir: '$(Build.ArtifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: artifactVersion
