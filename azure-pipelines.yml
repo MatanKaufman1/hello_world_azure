@@ -30,7 +30,7 @@ jobs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
-          jdkFile: '/home/ubuntu/_work/1/s/JAVA_HOME_21_X64_jre-8u431-linux-x64_tar.gz'
+          jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
 
 
       - task: NuGetAuthenticate@1
