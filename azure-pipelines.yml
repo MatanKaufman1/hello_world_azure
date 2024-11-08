@@ -8,7 +8,7 @@ variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
-  jdkFile: '/home/ubuntu/jre-8u431-linux-x64.tar.gz'
+  jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
 
 jobs:
   - job: Build_Job
@@ -54,7 +54,7 @@ jobs:
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: './azure-helloWorld.csproj'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: SonarQubeAnalyze@6
