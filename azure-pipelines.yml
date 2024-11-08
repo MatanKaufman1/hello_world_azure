@@ -44,12 +44,7 @@ jobs:
           projectKey: 'matankaufman1'
           projectName: 'matankaufman1'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Restore Dependencies'
-        inputs:
-          command: 'restore'
-          projects: '$(System.DefaultWorkingDirectory)/workdir/azure-helloWorld.csproj'
-
+     
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
         inputs:
