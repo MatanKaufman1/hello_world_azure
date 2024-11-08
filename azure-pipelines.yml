@@ -9,7 +9,6 @@ variables:
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
   jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
-  project: '**/*.csproj'
 
 jobs:
   - job: Build_Job
@@ -49,13 +48,13 @@ jobs:
         displayName: 'Restore Dependencies'
         inputs:
           command: 'restore'
-          projects: '$(project)'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: '$(project)'
+          projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       
@@ -64,16 +63,10 @@ jobs:
         inputs:
           pollingTimeoutSec: '300'
 
-     
+      - script: |
+            dotnet pack /home/ubuntu/azure-helloWorld.csproj
+        displayName: "pack the package"
 
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'pack'
-          projects: '$(project)'
-          versioningScheme: 'byEnvVar' 
-          versionEnvVar: 'artifactVersion'
-        displayName: 'Pack project with branch $(Build.SourceBranchName)'
-    
 
       - script: |
           dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/feed-matan/nuget/v3/index.json" --api-key $(System.AccessToken)
