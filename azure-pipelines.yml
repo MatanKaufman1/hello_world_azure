@@ -41,7 +41,7 @@ jobs:
         displayName: 'Restore Dependencies'
         inputs:
           command: 'restore'
-          projects: '/home/ubuntu/azure-helloWorld.csproj'
+          projects: '/workdir/azure-helloWorld.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
