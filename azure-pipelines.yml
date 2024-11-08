@@ -60,11 +60,11 @@ jobs:
           command: 'build'
           projects: '/home/ubuntu/azure-helloWorld.csproj'
           arguments: '--configuration $(buildConfiguration)'
-        
-
+      
+          
       - task: SonarQubeAnalyze@6
-        inputs:
 
+      
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
