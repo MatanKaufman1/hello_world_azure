@@ -53,7 +53,11 @@ jobs:
 
       - task: SonarQubeAnalyze@7
         inputs:
-          jdkversion: 'JAVA_HOME_21_X64'
+          jdkVersionOption: 'JDKVersion'
+          jdkVersion: '$(JAVA_HOME)'
+          jdkArchitecture: 'x64'
+        displayName: 'Run SonarQube Analysis'
+    
 
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
@@ -77,3 +81,6 @@ jobs:
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
           publishVstsFeed: '$(nugetFeed)'
+
+      - script: |
+          echo '$(artifactVersion)'
