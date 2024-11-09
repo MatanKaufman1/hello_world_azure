@@ -2,7 +2,9 @@ trigger:
   - main
 
 pool:
-  name: agent2
+  name: matanAgent
+  demands:
+    - Agent.Name -equals agent2
 
 variables:
   buildConfiguration: 'Release'
