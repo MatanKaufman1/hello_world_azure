@@ -14,9 +14,6 @@ variables:
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
   projectFile: '$(Build.SourcesDirectory)/azure-helloWorld.csproj'
   nugetFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
-  slackWebhook: '$(https://hooks.slack.com/services/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)' 
-  slackChannel: '#azure'
-
 
 jobs:
   - job: DevTasks
@@ -95,48 +92,6 @@ jobs:
           echo "The artifact version is:" '$(artifactVersion)'
         displayName: ECHO VERSION
 
-      - task: PostBuildTask@0
-        displayName: 'Post-Build Tasks'
-        inputs:
-          # Always run these tasks after the build completes
-          alwaysRun: true
-          tasks: |
-            # Success notification
-            - task: InvokeRESTAPI@1
-              condition: succeeded()
-              displayName: 'Notify Slack - Success'
-              inputs:
-                connectionType: 'Generic'
-                method: 'POST'
-                headers: |
-                  {
-                    "Content-Type":"application/json"
-                  }
-                body: |
-                  {
-                    "channel": "$(slackChannel)",
-                    "text": "✅ Pipeline Succeeded\nProject: $(Build.Repository.Name)\nBranch: $(Build.SourceBranchName)\nBuild: $(Build.BuildNumber)\nArtifact Version: $(artifactVersion)"
-                  }
-                urlSuffix: '$(slackWebhook)'
-            
-            # Failure notification
-            - task: InvokeRESTAPI@1
-              condition: failed()
-              displayName: 'Notify Slack - Failure'
-              inputs:
-                connectionType: 'Generic'
-                method: 'POST'
-                headers: |
-                  {
-                    "Content-Type":"application/json"
-                  }
-                body: |
-                  {
-                    "channel": "$(slackChannel)",
-                    "text": "❌ Pipeline Failed\nProject: $(Build.Repository.Name)\nBranch: $(Build.SourceBranchName)\nBuild: $(Build.BuildNumber)\nPlease check the build logs for details."
-                  }
-                urlSuffix: '$(slackWebhook)'
-  
 
 
   - job: MainTasks
@@ -187,3 +142,6 @@ jobs:
     - script: |
         rm -rf $(Build.ArtifactStagingDirectory)
       displayName: 'Clean Up Artifact'
+
+  
+    
