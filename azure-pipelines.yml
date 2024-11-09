@@ -31,7 +31,7 @@ jobs:
         inputs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
-          jdkSourceOption: 'LocalDirectory'
+          jdkSourceOption: 'PreInstalled'
           
 
       - task: NuGetAuthenticate@1
