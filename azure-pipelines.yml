@@ -150,10 +150,3 @@ jobs:
         rm -rf $(Build.ArtifactStagingDirectory)
       displayName: 'Clean Up Artifact'
     
-    - task: SlackPoster@2
-      inputs:
-        UserName: 'post from azure to slack'
-        Message: '$(Build.BuildNumber) successfull'
-        ApiToken: 'xapp-1-A080K8M32M7-7999995525606-73a7ba35f590d80fd85bdca225dc1943d08700714a583f763631ff9bae899d3d'
-        Channel: '#azure'
-        NeverFails: false
