@@ -1,8 +1,12 @@
 trigger:
-  - main
+  branches:
+    include:
+      - dev
+      - main
 
 pool:
   name: matanAgent
+
 
 variables:
   buildConfiguration: 'Release'
@@ -12,7 +16,9 @@ variables:
   nugetFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
 
 jobs:
-  - job: Build_Job
+  - job: DevTasks
+    displayName: 'Dev Branch : SonarQube, NuGet, and Publish'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
     steps:
       - checkout: self
         fetchDepth: 0
@@ -83,4 +89,54 @@ jobs:
           publishVstsFeed: '$(nugetFeed)'
 
       - script: |
-          echo '$(artifactVersion)'
+          echo "The artifact version is:" '$(artifactVersion)'
+        displayName: ECHO VERSION
+
+  - job: Main-tasks
+    displayName: 'Main Branch : Build, Pack, and Publish Project'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.x'
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore Dependencies'
+      inputs:
+        command: 'restore'
+        projects: '$(projectFile)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Project'
+      inputs:
+        command: 'build'
+        projects: '$(projectFile)'
+        arguments: '--configuration $(buildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Pack NuGet Package'
+      inputs:
+        command: 'pack'
+        packagesToPack: '$(projectFile)'
+        configuration: '$(buildConfiguration)'
+        versioningScheme: 'byEnvVar'
+        versionEnvVar: 'artifactVersion'
+        packDirectory: '$(Build.ArtifactStagingDirectory)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Push NuGet Package to Azure Artifacts'
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: '$(nugetFeed)'
+
+    - script: |
+       echo "Artifact Version: $(Build.BuildId)"
+      displayName: 'Print Artifact Version'
+
+    - script: |
+        rm -rf $(Build.ArtifactStagingDirectory)
+      displayName: 'Clean Up Artifact'
