@@ -64,12 +64,9 @@ jobs:
           pollingTimeoutSec: '300'
 
       - script: |
-            dotnet pack /home/ubuntu/azure-helloWorld.csproj  --configuration Release --output $(artifactVersion)
+          dotnet pack /home/ubuntu/azure-helloWorld.csproj --configuration Release --output $(Build.ArtifactStagingDirectory) --version $(artifactVersion)
         displayName: 'Pack NuGet Package'
-
-
-
-
+    
 
 
       - script: |
