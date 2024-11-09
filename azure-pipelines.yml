@@ -63,7 +63,7 @@ jobs:
         inputs:
           command: 'pack'
           packagesToPack: '**/*.csproj'
-          versioningScheme: 'byBuildNumber'
+          versioningScheme: '$(artifactVersion)'
            
       - script: |
           dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/$(artifactName)/nuget/v3/index.json" --api-key $(System.AccessToken)
