@@ -92,6 +92,15 @@ jobs:
           echo "The artifact version is:" '$(artifactVersion)'
         displayName: ECHO VERSION
 
+      - task: SlackPoster@2
+        inputs:
+          UserName: 'post from azure'
+          Message: '$(Build.BuildNumber) successfull'
+          ApiToken: 'SLACK_TOKEN'
+          Channel: '#azure'
+          IconUrl: 'https://hooks.slack.com/services/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'
+          NeverFails: false
+
   - job: MainTasks
     displayName: 'Main Branch : Build, Pack, and Publish Project'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
