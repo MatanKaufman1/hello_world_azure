@@ -92,7 +92,7 @@ jobs:
           echo "The artifact version is:" '$(artifactVersion)'
         displayName: ECHO VERSION
 
-  - job: Main-tasks
+  - job: MainTasks
     displayName: 'Main Branch : Build, Pack, and Publish Project'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     steps:
