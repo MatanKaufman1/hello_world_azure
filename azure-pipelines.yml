@@ -32,7 +32,7 @@ jobs:
           versionSpec: '21'
           jdkArchitectureOption: 'x64'
           jdkSourceOption: 'LocalDirectory'
-          jdkFile: '$(jdkFile)'
+          
 
       - task: NuGetAuthenticate@1
         displayName: 'Authenticate with Azure Artifacts'
