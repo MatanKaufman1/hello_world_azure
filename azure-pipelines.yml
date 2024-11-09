@@ -152,9 +152,8 @@ jobs:
     
     - task: SlackPoster@2
       inputs:
-        UserName: 'post from azure'
+        UserName: 'post from azure to slack'
         Message: '$(Build.BuildNumber) successfull'
-        ApiToken: 'SLACK_TOKEN'
+        ApiToken: 'xapp-1-A080K8M32M7-7999995525606-73a7ba35f590d80fd85bdca225dc1943d08700714a583f763631ff9bae899d3d'
         Channel: '#azure'
-        IconUrl: 'https://hooks.slack.com/services/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'
         NeverFails: false
