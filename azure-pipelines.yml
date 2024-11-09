@@ -2,13 +2,14 @@ trigger:
   - main
 
 pool:
-  name: matanAgent
+  name: agent2
 
 variables:
   buildConfiguration: 'Release'
   artifactName: 'feed-matan'
   artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
-  jdkFile: '/home/ubuntu/temp/jre-8u431-linux-x64.tar.gz'
+  jdkFile: '$(Agent.TempDirectory)/jre-8u431-linux-x64.tar.gz'
+  projectFile: '$(Build.SourcesDirectory)/azure-helloWorld.csproj'
 
 jobs:
   - job: Build_Job
@@ -48,27 +49,24 @@ jobs:
         displayName: 'Restore Dependencies'
         inputs:
           command: 'restore'
-          projects: '/home/ubuntu/azure-helloWorld.csproj'
+          projects: '$(projectFile)'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Project'
         inputs:
           command: 'build'
-          projects: '/home/ubuntu/azure-helloWorld.csproj'
+          projects: '$(projectFile)'
           arguments: '--configuration $(buildConfiguration)'
 
-      
       - task: SonarQubePublish@6
         displayName: 'Publish SonarQube Results'
         inputs:
           pollingTimeoutSec: '300'
 
       - script: |
-          dotnet pack /home/ubuntu/azure-helloWorld.csproj --configuration Release --output $(Build.ArtifactStagingDirectory) --version $(artifactVersion)
+          dotnet pack $(projectFile) --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) --version $(artifactVersion)
         displayName: 'Pack NuGet Package'
-    
-
 
       - script: |
-          dotnet nuget push /home/ubuntu/bin/Release/*.nupkg.$(artifactVersion) --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/feed-matan/nuget/v3/index.json" --api-key $(System.AccessToken)
+          dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/$(artifactName)/nuget/v3/index.json" --api-key $(System.AccessToken)
         displayName: 'Push NuGet Package to Azure Artifacts'
