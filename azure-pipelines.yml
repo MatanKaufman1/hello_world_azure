@@ -58,10 +58,13 @@ jobs:
         inputs:
           pollingTimeoutSec: '300'
 
-      - script: |
-          dotnet pack $(projectFile) --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) --version $(artifactVersion)
-        displayName: 'Pack NuGet Package'
 
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'pack'
+          packagesToPack: '**/*.csproj'
+          versioningScheme: 'byBuildNumber'
+           
       - script: |
           dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg --source "https://pkgs.dev.azure.com/matankaufman1/hello-world-azure/_packaging/$(artifactName)/nuget/v3/index.json" --api-key $(System.AccessToken)
         displayName: 'Push NuGet Package to Azure Artifacts'
