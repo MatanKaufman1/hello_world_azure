@@ -51,12 +51,12 @@ jobs:
           projects: '$(projectFile)'
           arguments: '--configuration $(buildConfiguration)'
 
-          - task: SonarQubeAnalyze@6
-          inputs:
-            jdkVersionOption: 'JDKVersion'
-            jdkVersion: '$(JAVA_HOME)'
-            jdkArchitecture: 'x64'
-          displayName: 'Run SonarQube Analysis'
+      - task: SonarQubeAnalyze@6
+        inputs:
+          jdkVersionOption: 'JDKVersion'
+          jdkVersion: '$(JAVA_HOME)'
+          jdkArchitecture: 'x64'
+        displayName: 'Run SonarQube Analysis'
         
 
       - task: SonarQubePublish@6
