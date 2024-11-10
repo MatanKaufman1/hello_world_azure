@@ -164,5 +164,20 @@ jobs:
         rm -rf $(Build.ArtifactStagingDirectory)
       displayName: 'Clean Up Artifact'
 
+
+    - script: |
+        SUBJECT="Azure DevOps Pipeline Status: $(Build.DefinitionName) - $(Build.BuildId)"
+        BODY="On $(Build.Repository.Provider) - $(Build.Repository.Name) Repository:"
+        BODY="${BODY}The build pipeline has completed with status: $(Agent.JobStatus)\n\n"
+        BODY="${BODY}Pipeline Name: $(Build.DefinitionName)\n"
+        BODY="${BODY}Branch: $(Build.SourceBranchName)\n"
+        BODY="${BODY}Go To Repo: $(Build.Repository.Uri)\n"
+
+        
+        curl -v --url 'smtp://smtp.gmail.com:587' --ssl-reqd \
+            --mail-from "$(GMAIL_USER)" --mail-rcpt "$(GMAIL_USER)" \
+            --upload-file <(echo -e "Subject: $SUBJECT\n\n$BODY") \
+            --user "$(GMAIL_USER):$(GMAIL_PASSWORD)" --insecure
+      displayName: 'Send Pipeline Status Email'
+      condition: always()
   
-    
