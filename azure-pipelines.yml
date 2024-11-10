@@ -9,11 +9,17 @@ pool:
 
 
 variables:
-  buildConfiguration: 'Release'
-  artifactName: 'feed-matan'
-  artifactVersion: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
-  projectFile: '$(Build.SourcesDirectory)/azure-helloWorld.csproj'
-  nugetFeed: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
+- group: azure-env-group
+- name:  buildConfiguration
+  value: 'Release'
+- name: artifactName
+  value: 'feed-matan'
+- name: artifactVersion
+  value: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
+- name: projectFile
+  value: '$(Build.SourcesDirectory)/azure-helloWorld.csproj'
+- name: nugetFeed
+  value: '92d7f46c-db9b-4ce4-9eb9-1d02c9b3e668/7443abf4-fbf7-43fa-9b0a-800e4e335c00'
 
 jobs:
   - job: DevTasks
@@ -92,7 +98,22 @@ jobs:
           echo "The artifact version is:" '$(artifactVersion)'
         displayName: ECHO VERSION
 
+      - script: |
+          SUBJECT="Azure DevOps Pipeline Status: $(Build.DefinitionName) - $(Build.BuildId)"
+          BODY="On $(Build.Repository.Provider) - $(Build.Repository.Name) Repository:"
+          BODY="${BODY}The build pipeline has completed with status: $(Agent.JobStatus)\n\n"
+          BODY="${BODY}Pipeline Name: $(Build.DefinitionName)\n"
+          BODY="${BODY}Branch: $(Build.SourceBranchName)\n"
+          BODY="${BODY}Go To Repo: $(Build.Repository.Uri)\n"
 
+          
+          curl -v --url 'smtp://smtp.gmail.com:587' --ssl-reqd \
+              --mail-from "$(GMAIL_USER)" --mail-rcpt "$(GMAIL_USER)" \
+              --upload-file <(echo -e "Subject: $SUBJECT\n\n$BODY") \
+              --user "$(GMAIL_USER):$(GMAIL_PASSWORD)" --insecure
+        displayName: 'Send Pipeline Status Email'
+        condition: always()
+      
 
   - job: MainTasks
     displayName: 'Main Branch : Build, Pack, and Publish Project'
