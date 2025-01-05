@@ -53,22 +53,7 @@ The Azure DevOps pipeline (`azure-pipelines.yml`) supports the following branche
 - **SonarQube**: For static code analysis.
 - **Azure Artifacts**: For managing NuGet packages.
 
-### Environment Variables
-Ensure the following variables are configured in the pipeline:
-- **`GMAIL_USER`**: Your Gmail username.
-- **`GMAIL_PASSWORD`**: Your Gmail app password.
 
-### NuGet Feed
-Update the `nuget.config` and `azure-pipelines.yml` files with your Azure Artifacts feed details.
-
----
-
-## How to Run the Pipeline
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/hello_world_azure.git
-   cd hello_world_azure
 # Hello World Azure Project
 
 This is a simple .NET "Hello World" application configured with Azure DevOps for CI/CD. The project demonstrates how to build, test, and publish a NuGet package while integrating with SonarQube for code analysis and Azure Artifacts for package management.
