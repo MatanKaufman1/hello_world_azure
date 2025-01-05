@@ -1,56 +1,62 @@
-# Hello World Azure Project
+Hello World Azure Project
 
 This is a simple .NET "Hello World" application configured with Azure DevOps for CI/CD. The project demonstrates how to build, test, and publish a NuGet package while integrating with SonarQube for code analysis and Azure Artifacts for package management.
+Table of Contents
 
----
-Pipeline Overview
+    Project Overview
+    Pipeline Overview
+    Prerequisites
+    How to Run the Pipeline
+    NuGet Package Details
+    Troubleshooting
+    Useful Commands
+    Contributions
+    License
+    Acknowledgments
 
-The Azure DevOps pipeline (azure-pipelines.yml) is designed to support two branches:
+1. Project Overview
 
-    dev branch:
-        SonarQube analysis for code quality.
-        Builds and packages the application.
-        Publishes the package to Azure Artifacts.
-        Sends an email notification with the pipeline status.
-    main branch:
-        Builds and packages the application.
-        Publishes the package to Azure Artifacts.
-        Sends an email notification with the pipeline status.
+This project is designed as a demonstration of CI/CD pipelines using Azure DevOps. Key features include:
 
-Key Pipeline Steps
+    Building and testing a .NET application.
+    Packaging the application as a NuGet package.
+    Uploading the package to Azure Artifacts.
+    Performing static code analysis with SonarQube.
 
-    DotNet SDK Setup:
-        Ensures the required .NET SDK (version 8.x) is installed.
-    NuGet Tool Installation & Authentication:
-        Installs the NuGet CLI and authenticates with Azure Artifacts.
-    SonarQube Analysis (for dev branch):
-        Prepares, runs, and publishes SonarQube results.
-    Build and Package:
-        Restores dependencies, builds the project, and creates a NuGet package.
-    Publish NuGet Package:
-        Publishes the .nupkg file to Azure Artifacts.
-    Email Notifications:
-        Sends pipeline status updates via email using curl and Gmail SMTP.
+2. Pipeline Overview
 
-Prerequisites
+The Azure DevOps pipeline (azure-pipelines.yml) supports the following branches:
+dev Branch
+
+    SonarQube Analysis: Ensures code quality.
+    Build and Package: Compiles and packages the application.
+    Publish to Azure Artifacts: Uploads the NuGet package.
+    Email Notification: Sends pipeline status updates via email.
+
+main Branch
+
+    Build and Package: Compiles and packages the application.
+    Publish to Azure Artifacts: Uploads the NuGet package.
+    Email Notification: Sends pipeline status updates via email.
+
+3. Prerequisites
 Tools Required
 
-    Azure DevOps with a configured agent (matanAgent).
-    SonarQube server for code analysis.
-    Azure Artifacts for managing NuGet packages.
+    Azure DevOps: With a configured agent (matanAgent).
+    SonarQube: For static code analysis.
+    Azure Artifacts: For managing NuGet packages.
 
 Environment Variables
 
-Ensure the following environment variables are set in your pipeline:
+Ensure the following variables are configured in the pipeline:
 
     GMAIL_USER: Your Gmail username.
-    GMAIL_PASSWORD: Your Gmail app password (not your regular Gmail password).
+    GMAIL_PASSWORD: Your Gmail app password.
 
 NuGet Feed
 
-    Update the nuget.config and azure-pipelines.yml file with your Azure Artifacts feed details.
-
-How to Run the Pipeline
+Update the nuget.config and azure-pipelines.yml files with your Azure Artifacts feed details.
+4. How to Run the Pipeline
 
     Clone the repository:
 
@@ -61,52 +67,36 @@ How to Run the Pipeline
 
     Monitor the pipeline status in Azure DevOps.
 
-NuGet Package Details
+5. NuGet Package Details
 
-The generated NuGet package is:
+The NuGet package details are:
 
     Name: feed-matan
     Version: 1.0.{BuildId}-{SourceBranchName}
 
 Packages are uploaded to the Azure Artifacts feed specified in the pipeline.
-Troubleshooting
+6. Troubleshooting
 Common Issues
 
     Pipeline Fails on NuGet Restore:
-        Ensure the NuGet feed is configured correctly in nuget.config.
+        Ensure the NuGet feed is correctly configured in nuget.config.
     SonarQube Issues:
         Verify the SonarQube server URL and credentials.
     Email Notifications Fail:
         Check the Gmail username, password, and SMTP configuration.
 
 Useful Commands
-
-    Run the application locally:
+Run the Application Locally
 
 cd src
 dotnet run
 
-Restore dependencies:
+Restore Dependencies
 
-    dotnet restore
+dotnet restore
 
-Contributions
 
-Feel free to open issues or create pull requests to improve this project.
-License
-
-This project is licensed under the MIT License.
-Acknowledgments
-
+ Acknowledgments
     Azure DevOps
     SonarQube
     NuGet
-
-
-### Key Highlights:
-- The `README.md` file provides a clear overview of the project and its CI/CD pipeline.
-- Includes instructions on prerequisites, how to use the pipeline, and troubleshooting steps.
-- Provides details on the NuGet package generated by the pipeline.
-
-Feel free to adjust the content to better fit your project's specific needs!
-
