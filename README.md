@@ -13,9 +13,7 @@ This is a simple .NET "Hello World" application configured with Azure DevOps for
 5. [NuGet Package Details](#nuget-package-details)
 6. [Troubleshooting](#troubleshooting)
 7. [Useful Commands](#useful-commands)
-8. [Contributions](#contributions)
-9. [License](#license)
-10. [Acknowledgments](#acknowledgments)
+8. [Acknowledgments](#acknowledgments)
 
 ---
 
