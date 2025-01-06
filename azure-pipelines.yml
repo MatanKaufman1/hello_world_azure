@@ -3,9 +3,10 @@ trigger:
     include:
       - dev
       - main
+    
 
 pool:
-  name: matanAgent
+  name: azureAgent
 
 
 variables:
@@ -13,7 +14,7 @@ variables:
 - name:  buildConfiguration
   value: 'Release'
 - name: artifactName
-  value: 'feed-matan'
+  value: 'feed-azure'
 - name: artifactVersion
   value: '1.0.$(Build.BuildId)-$(Build.SourceBranchName)'
 - name: projectFile
@@ -46,8 +47,8 @@ jobs:
         inputs:
           SonarQube: 'SonarQube'
           scannerMode: 'MSBuild'
-          organization: 'matankaufman1'
-          projectKey: 'matankaufman1_hello-world-azure'
+          organization: 'matan-organization'
+          projectKey: 'hello-world-azure-key'
           projectName: 'hello-world-azure'
 
       - task: DotNetCoreCLI@2
