@@ -84,55 +84,10 @@ Common Issues
 
 ---
 ## Useful Commands
-Run the Application Locally
+Run the Application Locally:
 
 cd src
 dotnet run
 
-Restore Dependencies
-
+Restore Dependencies:
 dotnet restore
-
----
-
-## Acknowledgments
-
-Special thanks to the following tools and platforms:
-
-    Azure DevOps
-    SonarQube
-    NuGet2. Push changes to the dev or main branch to trigger the pipeline.
-3. Monitor the pipeline status in Azure DevOps.
-
----
-
-## Troubleshooting
-Common Issues
-
-    Pipeline Fails on NuGet Restore:
-        Ensure the NuGet feed is correctly configured in nuget.config.
-    SonarQube Issues:
-        Verify the SonarQube server URL and credentials.
-    Email Notifications Fail:
-        Check the Gmail username, password, and SMTP configuration.
-
----
-## Useful Commands
-Run the Application Locally
-
-cd src
-dotnet run
-
-Restore Dependencies
-
-dotnet restore
-
----
-
-## Acknowledgments
-
-Special thanks to the following tools and platforms:
-
-    Azure DevOps
-    SonarQube
-    NuGet
