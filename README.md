@@ -86,8 +86,9 @@ Common Issues
 ## Useful Commands
 Run the Application Locally:
 
-cd src
-dotnet run
+      cd src
+      dotnet run
 
 Restore Dependencies:
-dotnet restore
+
+      dotnet restore
